@@ -4,12 +4,19 @@
 
 require 'zap_attack'
 require 'combinatorics'
+require 'openssl'
+require 'resolv-replace'
+require 'open-uri'
 
 include ZapAttack, ZapAttack::API, ZapAttack::Config
 
+scheme = 'https://'
+host = 'my-digitallife-qa1.stage.att.com'
+aopts = { :redirect => false, :read_timeout => 8, :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE }
+
 urls, dirs, fils = [], [], []
 
-Urls.new(%r{stage.att.com}) do |s|
+Urls.new(%r{#{host}}) do |s|
   anurl = URI(s)
   apath = anurl.path
 
@@ -62,7 +69,7 @@ uri_paths.each do |p|
   end
 
   data_dirs.each do |d|
-    out_paths << "#{astr}#{d}"
+    out_paths << "#{astr}#{d}/"
   end
 end
 
@@ -71,6 +78,17 @@ excre = %r{.ico$}
 
 out_paths.select! { |x| x =~ incre and !(x =~ excre) } 
 
-p out_paths
+out_paths.each do |a|
+  anurl = "#{scheme}#{host}#{a}"
+  begin
+    open(anurl, aopts) do |h|
+      if h.status.first.to_i.eql?(200)
+        puts("#{h.status.join(' ')} #{anurl}")
+      end
+    end
+  rescue Exception => e
+    STDERR.puts("#{e} #{anurl}")
+  end
+end
 
 exit 0

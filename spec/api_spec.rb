@@ -11,6 +11,12 @@ describe Alerts do
   end
 end
 
+describe Hosts do
+  it 'Hosts should be derived from Array' do
+    expect(Hosts).to be < Array
+  end
+end
+
 describe Sites do
   it 'Sites should be derived from Array' do
     expect(Sites).to be < Array
