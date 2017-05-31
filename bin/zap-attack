@@ -1,0 +1,76 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+#
+
+require 'zap_attack'
+require 'combinatorics'
+
+include ZapAttack, ZapAttack::API, ZapAttack::Config
+
+urls, dirs, fils = [], [], []
+
+Urls.new(%r{stage.att.com}) do |s|
+  anurl = URI(s)
+  apath = anurl.path
+
+  urls << anurl.to_s
+
+  File.dirname(apath).split('/').each do |d|
+    dirs << d if !dirs.include?(d)
+  end
+
+  aname = File.basename(apath)
+
+  fils << aname if aname.index('.') and !fils.include?(aname)
+end
+
+dirs.select! { |x| !x.empty? and !x.eql?('.') and !x.eql?('..') }
+
+data_dirs, uri_paths, out_paths = [], [], []
+
+dirs.power_set do |x|
+  uri_paths << x 
+end
+
+File.readlines('data/dirs.txt').each do |l|
+  l.rstrip!
+
+  uri_paths << [l] if !uri_paths.include?(l)
+end
+
+=begin
+puts "dirs: #{dirs}"
+puts "fils: #{fils}"
+puts "urls: #{urls}"
+puts "uri_paths: #{uri_paths}"
+=end
+
+File.readlines('data/dirs.txt').each do |l|
+  l.rstrip!
+
+  data_dirs << l
+end
+
+uri_paths.each do |p|
+  arry = p.to_a
+  apth = arry.join('/')
+  astr =  "/#{apth}"
+  astr << '/' if !arry.size.zero?
+
+  fils.each do |f|
+    out_paths << "#{astr}#{f}"
+  end
+
+  data_dirs.each do |d|
+    out_paths << "#{astr}#{d}"
+  end
+end
+
+incre = %r{^/dlife}
+excre = %r{.ico$}
+
+out_paths.select! { |x| x =~ incre and !(x =~ excre) } 
+
+p out_paths
+
+exit 0

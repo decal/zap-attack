@@ -1,0 +1,50 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+#
+
+require 'zap_attack'
+
+include ZapAttack, ZapAttack::API, ZapAttack::Config
+
+u = Urls.new
+
+if DEBUG_ZAPA
+  STDERR.puts("Urls.text: #{u.text}")
+  STDERR.puts("Urls.json: #{u.json}")
+  STDERR.puts("Urls.urls: #{u.urls}")
+end
+
+Sites.new() { |x|
+ p x
+}
+
+=begin
+s = Sites.new
+
+if DEBUG_ZAPA
+  STDERR.puts("Sites.text: #{s.text}")
+  STDERR.puts("Sites.json: #{s.json}")
+  STDERR.puts("Sites.sites: #{s.sites}")
+end
+=end
+
+
+Alerts.new() { |x|
+  p x
+}
+
+=begin
+z = Alerts.new
+
+if DEBUG_ZAPA
+  STDERR.puts("Alerts.text: #{z.text}")
+  STDERR.puts("Alerts.json: #{z.json}")
+  STDERR.puts("Alerts.alerts: #{z.alerts}")
+end
+=end
+
+Hosts.new() { |h|
+  p h
+}
+
+exit 0

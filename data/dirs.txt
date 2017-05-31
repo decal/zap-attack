@@ -1,0 +1,5 @@
+admin
+system
+console
+setup
+install

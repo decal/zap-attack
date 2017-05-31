@@ -1,0 +1,17 @@
+name: zap_attack
+summary: Attack a site based on info available from the ZAP API
+description:
+  Use information from the OWASP ZAP (Open Web Application Security Project
+  Zed Attack Proxy) API interface in order to carry out further targeted
+  attacks against a particular web site.
+license: MIT
+authors: Derek Callaway
+email: derek.callaway@ioactive.com
+homepage: https://github.com/decal/zap_attack
+has_yard: true
+
+required_ruby_version: >= 2.4.1
+
+development_dependencies:
+  rspec: ~> 2.2.0
+  yard: ~> 0.6.0
