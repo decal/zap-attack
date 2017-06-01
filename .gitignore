@@ -1,2 +1,11 @@
 .rake_*
 core
+/.yardoc/
+/_yardoc/
+/doc/
+/rdoc/
+.ruby-version
+.env
+.rvmrc
+*.swp
+.DS_Store
