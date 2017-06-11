@@ -6,3 +6,4 @@ module ZapAttack
 end
 
 require 'zap_attack/data/alert'
+require 'zap_attack/data/param'

@@ -11,7 +11,7 @@ require 'open-uri'
 include ZapAttack, ZapAttack::API, ZapAttack::Config
 
 scheme = 'https://'
-host = 'google.com' # must be a host available in ZAP history
+host = 'my-digitallife-qa1.stage.att.com' # must be a host available in ZAP history
 aopts = { :redirect => false, :read_timeout => 8, :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE }
 
 urls, dirs, fils = [], [], []
@@ -19,7 +19,6 @@ urls, dirs, fils = [], [], []
 Urls.new(%r{#{host}}) do |s|
   anurl = URI(s)
   apath = anurl.path
-
   urls << anurl.to_s
 
   File.dirname(apath).split('/').each do |d|
@@ -38,19 +37,6 @@ data_dirs, uri_paths, out_paths = [], [], []
 dirs.power_set do |x|
   uri_paths << x 
 end
-
-File.readlines('data/dirs.txt').each do |l|
-  l.rstrip!
-
-  uri_paths << [l] if !uri_paths.include?(l)
-end
-
-=begin
-puts "dirs: #{dirs}"
-puts "fils: #{fils}"
-puts "urls: #{urls}"
-puts "uri_paths: #{uri_paths}"
-=end
 
 File.readlines('data/dirs.txt').each do |l|
   l.rstrip!
@@ -80,6 +66,7 @@ out_paths.select! { |x| x =~ incre and !(x =~ excre) }
 
 out_paths.each do |a|
   anurl = "#{scheme}#{host}#{a}"
+
   begin
     open(anurl, aopts) do |h|
       if h.status.first.to_i.eql?(200)

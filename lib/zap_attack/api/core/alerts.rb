@@ -1,7 +1,5 @@
 # encoding: utf-8
 
-require 'uri'
-
 module ZapAttack::API
   #
   # URL to access alerts via ZAP API with baseurl parameter to narrow results
@@ -14,11 +12,14 @@ module ZapAttack::API
     #
     # Instantiate Ruby Alerts Array Object by parsing JSON from ZAP API
     # 
-    # @param [String] 
-    #   abase URL
+    # @param [String] abase
+    #   only retrieve alerts associated with the given base URL 
     #
-    # @param [Proc] block 
-    #   code statements to apply to each alert
+    # @raise [ArgumentError] 
+    #   abase cannot be nil
+    #
+    # @raise [TypeError]
+    #   abase must be a kind of String or URI
     #
     # @return [Array#Hash] 
     #   a Hash Array consisting of pairs describing the threat
@@ -34,8 +35,8 @@ module ZapAttack::API
     #   https://zap:8080/JSON/core/view/alerts
     #
     def initialize(abase = '')
-      raise(EmptyError 'abase cannot be nil!') if !abase
-      raise(TypeError, 'abase must be a kind of String!') if !(abase.kind_of?(String) or abase.kind_of?(URI))
+      raise(ArgumentError, 'abase cannot be nil!') if !abase
+      raise(TypeError, 'abase must be a kind of String or URI!') if !(abase.kind_of?(String) or abase.kind_of?(URI))
 
       abase = abase.to_s if abase.kind_of?(URI)
 
@@ -63,8 +64,6 @@ module ZapAttack::API
       end
 
       self.concat(@alerts)
-
-      self
     end
   end
 end
