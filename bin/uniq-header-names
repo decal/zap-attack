@@ -10,8 +10,6 @@ include ZapAttack, ZapAttack::API, ZapAttack::Data
 
 headers = Params.new
 
-p headers.size
-
 headers.select! do |h|
   h['type'].eql?('header') 
 end
@@ -27,7 +25,6 @@ headers.each do |h|
   names.concat( [ aname ] ) if namez.size.zero?
 end
 
-p names
-p names.size
+puts names
 
 exit 0

@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+#
+# Form a unique list of names from HTTP response header fields 
+#
+
+require 'zap_attack'
+require 'ipaddr'
+
+include ZapAttack::API
+
+params = Params.new
+cookies = params.select { |h| h['type'] == 'cookie' }
+cookiez = cookies.select { |x| x['name'].include?('SESS') or x['name'].include?('ID') }
+
+cookiez.each do |c|
+  values = c['Values']
+
+  values.each do |v|
+    next if !v.index('!')
+
+    puts c['site']
+    puts c['name']
+    puts v
+
+    posads = v.split('!')
+
+    posads.each do |p|
+      if p.match?(%r{^[-]?[0-9]+})
+        begin
+          astr = IPAddr.new(p, Socket::AF_INET).to_s
+
+          puts "#{p} => #{astr}"
+        rescue Exception => e
+        end
+      end
+    end
+  end
+end
+
+exit 0

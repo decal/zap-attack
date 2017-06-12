@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+#
+# Form a unique list of names from HTTP response header fields 
+#
+
+require 'zap_attack'
+
+include ZapAttack::API
+
+params = Params.new
+headers = params.select { |h| h['type'] == 'header' }
+cookies = params.select { |h| h['type'] == 'cookie' }
+urls = params.select { |h| h['type'] == 'url' }
+
+p params.size
+p headers
+p cookies
+p urls
+
+exit 0
