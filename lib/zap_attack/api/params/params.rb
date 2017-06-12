@@ -5,9 +5,6 @@ require 'open-uri'
 require 'openssl'
 require 'uri'
 
-module ZapAttack
-end
-
 module ZapAttack::API
   #
   # URL to access params via ZAP API
@@ -16,9 +13,6 @@ module ZapAttack::API
 
   class Params < Array
     attr_reader :json, :text, :params
-
-    private def make_hash(**keys)
-    end
 
     #
     # Instantiate Ruby Params Array Object by parsing JSON from ZAP API
@@ -50,12 +44,10 @@ module ZapAttack::API
       raise(TypeError, 'asite must be a kind of String or URI!') if !(asite.kind_of?(String) or asite.kind_of?(URI))
 
       asite = "#{asite.host}:#{asite.port}" if asite.kind_of?(URI)
-
       params_json, @text, @params, @json = PARAMS_JSON.dup, '', [], []
       params_json << asite if !asite.empty?
 
-      # open(params_json, OPEN_URI_OPTS) do |x|
-      open(params_json, { :proxy => URI('http://127.0.0.1:8080/'), :redirect => false, :read_timeout => 10, :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE } ) do |x|
+      open(params_json, OPEN_URI_OPTS) do |x|
         if x.content_type.include?('/json') and x.status.first.to_i.eql?(200)
           x.each_line do |l|
             @text << l
@@ -71,31 +63,71 @@ module ZapAttack::API
 
       return [] if !@params or @params.size.zero?
 
-      @params = @params.first
+      @params.each do |xparam|
+        index, jparam = 0, xparam['Parameter']
 
-      return [] if !@params.key?('Parameter')
+        while index < jparam.size
+          zparam = jparam[index]
+          ahash, atype = zparam, zparam['type']
 
-      ahash, anarr, index, @params = {}, [], 0, @params['Parameter']
+          if !atype or atype.empty?
+            index += 1
 
-      ahash = @params[0].merge(@params[1])
+            next
+          end
 
-      while index < params.size
-        ahash = @params[index].merge(@params[index + 1])
+          if atype.eql?('cookie')
+            next_param = jparam[index + 1]
 
-        index += 2
+            if !next_param or next_param.empty? 
+              index += 2
 
-        yield ahash if block_given?
+              next
+            end
 
-        self.concat( [ ahash ] )
+            last_param = jparam[index + 2]
+
+            if !last_param or last_param.empty?
+              index += 3
+
+              next
+            end
+
+            ahash.merge!(next_param) if next_param.key?('Values') or next_param.key?('Flags')
+            ahash.merge!(last_param) if last_param.key?('Values') or last_param.key?('Flags')
+
+            yield ahash if block_given?
+
+            self.concat( [ ahash ] )
+
+            index += 3
+          else
+            if !(atype.eql?('url') or atype.eql?('header'))
+              index += 1
+              
+              next
+            end
+
+            next_param = jparam[index + 1]
+
+            if !next_param or next_param.empty?
+              index += 2 
+
+              next
+            end
+
+            ahash.merge!(next_param) if next_param.key?('Values')
+
+            yield ahash if block_given?
+
+            self.concat( [ ahash ] )
+
+            index += 2
+          end
+        end
       end
 
       self
     end
   end
-end
-
-if $0 == __FILE__
-  params = ZapAttack::API::Params.new
-
-  p params
 end

@@ -15,3 +15,4 @@ require 'resolv-replace'
 require 'uri'
 
 require 'zap_attack/api/core'
+require 'zap_attack/api/params'

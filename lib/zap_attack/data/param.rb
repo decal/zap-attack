@@ -4,85 +4,59 @@ require 'uri'
 
 module ZapAttack::Data
   class Param
-    attr_reader :messageid, :cweid, :name, :url, :method, :description, :reference, :solution, :risk, :attack
+    attr_reader :site, :name, :timesused, :type, :values, :flags
 
-    alias :threat :description
-    alias :vuln   :description
-    alias :desc   :description
-
-    alias :recommendation :solution
-    alias :mitigation     :solution
-    alias :patch          :solution
-
-    alias :information :reference
-    alias :more_info   :reference
-    alias :info        :reference
-
-    alias :webdav :method
-    alias :action :method
-    alias :verb   :method
-
-    alias :location :url
-    alias :href     :url
-    alias :link     :url
-
-    alias :impact   :risk
-    alias :severity :risk
-    alias :danger   :risk
-
-    alias :exploit :attack
-    alias :poc     :attack
-    alias :example :attack
-
-    # @param [Integer] ncwe
+    #
+    # @param [String] asite
+    #
     # @param [String] aname
-    # @param [String] anurl
-    # @param [String] ameth
-    # @param [String] adesc
-    # @param [String] refer
-    # @param [String] solve
-    # @param [String] arisk
-    # @param [String] anexp
-    def initialize(aname = '', anurl = '', ameth = '', adesc = '', refer = '', solve = '', arisk = '', anexp = '', ncwe = 0)
-      raise EmptyError.new('anurl must not be nil or empty!') if !anurl or anurl.empty?
-      raise TypeError.new('anurl must be a kind of String or URI!') if !anurl.kind_of?(String) and !anurl.kind_of?(URI)
+    #
+    # @param [String] atype
+    #
+    # @param [Integer] ntimesused
+    #
+    # @param [Array] xvalues
+    #
+    # @param [Array] xflags
+    #
+    def initialize(asite = '', aname = '', atype = '', ntimesused = 0, xvalues = [], xflags = [])
+      raise(ArgumentError, 'asite must not be nil or empty!') if !asite or asite.empty?
+      raise(TypeError, 'asite must be a kind of String or URI!') if !asite.kind_of?(String) and !asite.kind_of?(URI)
 
-      raise EmptyError.new('ameth must not be nil or empty!') if !ameth or ameth.empty?
-      raise TypeError.new('ameth must be a kind of String!') if !ameth.kind_of?(String)
+      raise(ArgumentError, 'aname must not be nil or empty!') if !aname or aname.empty?
+      raise(TypeError, 'aname must be a kind of String!') if !aname.kind_of?(String)
 
-      raise EmptyError.new('ameth must not be nil or empty!') if !adesc or adesc.empty?
-      raise TypeError.new('ameth must be a kind of String!') if !adesc.kind_of?(String)
+      raise(ArgumentError, 'atype must not be nil or empty!') if !atype or atype.empty?
+      raise(TypeError, 'atype must be a kind of String!') if !atype.kind_of?(String)
 
-      raise EmptyError.new('refer must not be nil or empty!') if !refer or refer.empty?
-      raise TypeError.new('refer must be a kind of String!') if !refer.kind_of?(String)
+      raise(ArgumentError, 'ntimesused must not be nil!') if !ntimesused
+      raise(TypeError, 'ntimesused must be a kind of Integer!') if !ntimesused.kind_of?(Integer)
+      raise(RangeError, 'ntimesused must be non-negative!') if ntimesused < 0
 
-      raise EmptyError.new('solve must not be nil or empty!') if !solve or solve.empty?
-      raise TypeError.new('solve must be a kind of String!') if !solve.kind_of?(String)
+      raise(ArgumentError, 'xvalues must not be nil!') if !xvalues
+      raise(TypeError, 'xvalues must be a kind of Array!') if !xvalues.kind_of?(Array)
 
-      raise ArgumentError.new('arisk must not be nil!') if !arisk
-      raise EmptyError.new('arisk must not be empty!') if arisk.empty?
-      raise TypeError.new('arisk must be a kind of String!') if !arisk.kind_of?(String)
+      raise(ArgumentError, 'xflags must not be nil!') if !xflags
+      raise(TypeError, 'xflags must be a kind of Array!') if !xflags.kind_of?(Array)
 
-      raise EmptyError.new('anexp must not be nil or empty!') if !anexp or anexp.empty?
-      raise TypeError.new('anexp must be a kind of String!') if !anexp.kind_of?(String)
 
-      raise EmptyError.new('ncwe must not be nil!') if !ncwe
-      raise TypeError.new('ncwe must be a kind of Integer!') if !ncwe.kind_of?(Integer)
-      raise RangeError.new('ncwe must be non-negative!') if ncwe < 0
-
-      @cweid, @name, @url, @method, @description, @reference, @solution, @risk, @attack = ncwe, aname, anurl, ameth, adesc, refer, solve, arisk, anexp 
+      @site, @name, @type, @timesused, @values, @flags = asite, aname, atype, ntimesused, xvalues, xflags
     end
 
     def to_s
-      "#{@name} #{@url} #{@risk} #{@description} #{@solution} #{@reference}"
+      "#{@site} #{@name} #{@type} #{@timesused} #{@values} #{@flags}"
     end
   end
 end
 
 =begin
-{"sourceid"=>"3", "other"=>"", "method"=>"GET", "evidence"=>"", "pluginId"=>"10015", "cweid"=>"525", "confidence"=>"Medium", "wascid"=>"13", "description"=>"The cache-co
-ntrol and pragma HTTP header have not been set properly or are missing allowing the browser and proxies to cache content.", "messageId"=>"1724", "url"=>"https://secure.i
-nformaction.com/ipecho/", "reference"=>"https://www.owasp.org/index.php/Session_Management_Cheat_Sheet#Web_Content_Caching", "solution"=>"Whenever possible ensure the ca
-che-control HTTP header is set with no-cache, no-store, must-revalidate; and that the pragma HTTP header is set with no-cache.", "alert"=>"Incomplete or No Cache-control
- and Pragma HTTP Header Set", "param"=>"Cache-Control", "attack"=>"", "name"=>"Incomplete or No Cache-control and Pragma HTTP Header Set", "risk"=>"Low", "id"=>"637"}
+{"site"=>"www.oracle.com:80", "name"=>"Connection", "timesUsed"=>"1", "type"=>"header", "Values"=>["keep-alive"]}
+
+
+{"site"=>"versioncheck-bg.addons.mozilla.org:443", "name"=>"id", "timesUsed"=>"8", "type"=>"url", "Values"=>["firefox@getpocket.
+com", "aushelper@mozilla.org", "screenshots@mozilla.org", "{972ce4c6-7e08-4474-a285-3208198ce6fd}", "webcompat@mozilla.org", "firefox-h
+otfix@mozilla.org", "e10srollout@mozilla.org", "{73a6fe31-595d-460b-a920-fcc0f8843232}"]}
+
+{"site"=>"tags.bluekai.com:443", "name"=>"bkdc", "timesUsed"=>"4", "type"=>"cookie", "Flags"=>["path=/", "domain=.bluekai.com",
+"expires=Sat, 09-Dec-2017 01:36:16 GMT"], "Values"=>["phx", "wdc"]}
 =end

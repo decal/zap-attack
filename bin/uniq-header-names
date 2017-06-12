@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+#
+# Form a unique list of case-insensitive names from HTTP response header fields 
+#
+
+require 'zap_attack'
+
+include ZapAttack, ZapAttack::API, ZapAttack::Data
+
+headers = Params.new
+
+p headers.size
+
+headers.select! do |h|
+  h['type'].eql?('header') 
+end
+
+names = []
+
+headers.each do |h|
+  aname = h['name']
+  lname = aname.downcase
+
+  namez = names.select { |x| x.downcase.eql?(lname) }
+
+  names.concat( [ aname ] ) if namez.size.zero?
+end
+
+p names
+p names.size
+
+exit 0
