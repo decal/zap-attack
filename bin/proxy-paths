@@ -3,14 +3,16 @@
 #
 # Traverse all known directories under web root in search of differing Server
 # fields in the HTTP response header that would indicate configured proxy paths.
-#
-## TODO: Compare Set-Cookie differences in case Server header is missing
+# Alternatively, cookie names can be used as the differentiating factor.
 #
 
 require 'zap_attack'
 require 'dirverser'
 require 'rest-client'
 require 'uri'
+
+# If this is true, use Server header--otherwise, use cookie names..
+PROXY_SERVER_HEADER = true
 
 include ZapAttack::API, Dirverser::URI
 
@@ -61,29 +63,58 @@ end
 locs.sort!
 locs.uniq! 
 
-srvs, thrs = [], []
-amut = Mutex.new
+srvs, thrs, amut = [], [], Mutex.new
 
 locs.each do |l|
   thrs << Thread.new do
-    begin
-      r = RestClient.get(l)
+    if PROXY_SERVER_HEADER
+      begin
+        r = RestClient.get(l)
 
-      h, x = r.headers, { :URL => l }
+        h, x = r.headers, { :URL => l }
 
-      h.merge!(x)
+        h.merge!(x)
 
-      amut.synchronize { srvs << h }
-    rescue Exception => e
+        amut.synchronize do
+          srvs << h 
+        end
+      rescue Exception => e
+        Thread.exit
+      end
+    else
+      begin
+        r = RestClient.get(l)
+
+        c, x = r.cookies, {:URL => l }
+
+        c.merge!(x)
+
+        amut.synchronize do
+          srvs << c
+        end
+      rescue Exception => e
+        Thread.exit
+      end
     end
   end
 end
 
-thrs.each { |t| t.join }
-srvs.uniq! { |s| s[:server] }
+thrs.each do |t| 
+  t.join 
+end
+
+if PROXY_SERVER_HEADER
+  srvs.uniq! { |s| s[:server] }
+else
+  srvs.uniq! { |s| s.keys }
+end
 
 srvs.each do |z|
-  STDOUT.puts("#{z[:URL]} => #{z[:server]}")
+  if PROXY_SERVER_HEADER
+    STDOUT.puts("#{z[:URL]} => #{z[:server]}")
+  else
+    STDOUT.puts("#{z[:URL]} => #{z}")
+  end
 end
 
 exit 0
