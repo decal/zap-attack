@@ -4,6 +4,8 @@
 # Traverse all known directories under web root in search of differing Server
 # fields in the HTTP response header that would indicate configured proxy paths.
 #
+## TODO: Compare Set-Cookie differences in case Server header is missing
+#
 
 require 'zap_attack'
 require 'dirverser'
@@ -12,7 +14,14 @@ require 'uri'
 
 include ZapAttack::API, Dirverser::URI
 
-locs, urls = Array.new, Urls.new
+if ARGV.empty?
+  STDERR.puts("\nusage: #{$0} HOST\n")
+  STDERR.puts("  HOST  name of host to check for proxy paths\n")
+end
+
+host, locs, urls = ARGV.first.dup, Array.new, Urls.new
+
+host.downcase!
 
 urls.each do |u|
   begin
@@ -21,7 +30,7 @@ urls.each do |u|
 
     ahst.downcase!
 
-    next if !ahst.eql?('www.oracle.com')
+    next if !ahst.eql?(host)
   rescue Exception => e
     STDERR.puts(e)
 
@@ -55,13 +64,17 @@ locs.uniq!
 srvs = []
 
 locs.each do |l|
-  r = RestClient.get(l)
+  begin
+    r = RestClient.get(l)
 
-  h, x = r.headers, { :URL => l }
+    h, x = r.headers, { :URL => l }
 
-  h.merge!(x)
+    h.merge!(x)
 
-  srvs << h
+    srvs << h
+  rescue Exception => e
+    STDERR.puts(e)
+  end
 end
 
 srvs.uniq! { |s| s[:server] }
