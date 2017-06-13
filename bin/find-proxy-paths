@@ -1,0 +1,73 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+#
+# Traverse all known directories under web root in search of differing Server
+# fields in the HTTP response header that would indicate configured proxy paths.
+#
+
+require 'zap_attack'
+require 'dirverser'
+require 'rest-client'
+require 'uri'
+
+include ZapAttack::API, Dirverser::URI
+
+locs, urls = Array.new, Urls.new
+
+urls.each do |u|
+  begin
+    auri = URI(u)
+    ahst = auri.host
+
+    ahst.downcase!
+
+    next if !ahst.eql?('www.oracle.com')
+  rescue Exception => e
+    STDERR.puts(e)
+
+    next
+  end
+
+  urlz = traverse(u, { :trail_slash => false } )
+
+  urlz.each do |a|
+    next if !a or a.empty?
+
+    aslind = a.rindex('/')
+
+    next if !aslind
+
+    aprind = a[aslind .. -1].rindex('.')
+
+    next if aprind
+
+    aqmind = a.rindex('?')
+
+    a = a[0 .. (aqmind - 1)] if aqmind
+
+    locs << a
+  end
+end
+
+locs.sort!
+locs.uniq! 
+
+srvs = []
+
+locs.each do |l|
+  r = RestClient.get(l)
+
+  h, x = r.headers, { :URL => l }
+
+  h.merge!(x)
+
+  srvs << h
+end
+
+srvs.uniq! { |s| s[:server] }
+
+srvs.each do |z|
+  STDOUT.puts("#{z[:URL]} => #{z[:server]}")
+end
+
+exit 0
