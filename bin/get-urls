@@ -9,20 +9,6 @@ include ZapAttack::API
 urls = Urls.new
 
 urls.each do |u|
-  begin
-    auri = URI(u)
-    ascm = auri.scheme
-
-    next if !ascm.eql?('https')
-
-    ahst = auri.host
-
-    ahst.downcase!
-
-    next if !ahst.eql?('www.oracle.com')
-  rescue Exception => e
-  end
-  
   puts u
 end
 

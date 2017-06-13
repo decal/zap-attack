@@ -16,7 +16,9 @@ include ZapAttack::API, Dirverser::URI
 
 if ARGV.empty?
   STDERR.puts("\nusage: #{$0} HOST\n")
-  STDERR.puts("  HOST  name of host to check for proxy paths\n")
+  STDERR.puts("  HOST  name of host to check for proxy paths\n\n")
+
+  exit 1
 end
 
 host, locs, urls = ARGV.first.dup, Array.new, Urls.new
@@ -32,8 +34,6 @@ urls.each do |u|
 
     next if !ahst.eql?(host)
   rescue Exception => e
-    STDERR.puts(e)
-
     next
   end
 
@@ -61,22 +61,25 @@ end
 locs.sort!
 locs.uniq! 
 
-srvs = []
+srvs, thrs = [], []
+amut = Mutex.new
 
 locs.each do |l|
-  begin
-    r = RestClient.get(l)
+  thrs << Thread.new do
+    begin
+      r = RestClient.get(l)
 
-    h, x = r.headers, { :URL => l }
+      h, x = r.headers, { :URL => l }
 
-    h.merge!(x)
+      h.merge!(x)
 
-    srvs << h
-  rescue Exception => e
-    STDERR.puts(e)
+      amut.synchronize { srvs << h }
+    rescue Exception => e
+    end
   end
 end
 
+thrs.each { |t| t.join }
 srvs.uniq! { |s| s[:server] }
 
 srvs.each do |z|
