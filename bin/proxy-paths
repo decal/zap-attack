@@ -12,7 +12,9 @@ require 'rest-client'
 require 'uri'
 
 # If this is true, use Server header--otherwise, use cookie names..
-PROXY_SERVER_HEADER = true
+PROXY_SERVER_HEADER = false
+# If this is true, domain name will match other hosts in domain, otherwise exact
+HOST_NAME_INCLUDE = true
 
 include ZapAttack::API, Dirverser::URI
 
@@ -34,7 +36,11 @@ urls.each do |u|
 
     ahst.downcase!
 
-    next if !ahst.eql?(host)
+    if HOST_NAME_INCLUDE
+      next if !ahst.include?(host)
+    else
+      next if !ahst.eql?(host)
+    end
   rescue Exception => e
     next
   end
@@ -103,10 +109,8 @@ thrs.each do |t|
   t.join 
 end
 
-if PROXY_SERVER_HEADER
-  srvs.uniq! { |s| s[:server] }
-else
-  srvs.uniq! { |s| s.keys }
+srvs.uniq! do |s|
+  PROXY_SERVER_HEADER ? s[:server] : s.keys
 end
 
 srvs.each do |z|

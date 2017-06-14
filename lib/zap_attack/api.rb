@@ -14,5 +14,6 @@ require 'open-uri'
 require 'resolv-replace'
 require 'uri'
 
+require 'zap_attack/api/ajax_spider'
 require 'zap_attack/api/core'
 require 'zap_attack/api/params'
