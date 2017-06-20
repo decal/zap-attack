@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# encoding: utf-8
+# coding: utf-8
 #
 
 require 'zap_attack'
@@ -59,8 +59,7 @@ uri_paths.each do |p|
   end
 end
 
-incre = %r{^/dlife}
-excre = %r{.ico$}
+incre, excre = %r{^/dlife}, %r{.ico$}
 
 out_paths.select! { |x| x =~ incre and !(x =~ excre) } 
 

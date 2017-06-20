@@ -1,4 +1,4 @@
-# encoding: utf-8
+# coding: utf-8
 
 require 'uri'
 
@@ -7,40 +7,51 @@ module ZapAttack::Data
     attr_reader :site, :name, :timesused, :type, :values, :flags
 
     #
-    # @param [String] asite
+    # Param data object parsed from OWASP API JSON.
     #
-    # @param [String] aname
+    # @param [String] site
+    #   DNS host name and port where parameter originated from
     #
-    # @param [String] atype
+    # @param [String] name
+    #   Name of HTTP header
+    #
+    # @param [String] type
+    #   Type of parameter: header, cookie or url
     #
     # @param [Integer] ntimesused
+    #   Number of times parameter was repeated in responses from site
     #
-    # @param [Array] xvalues
+    # @param [Array] values
+    #   String parameter was assigned to, i.e. an "rvalue"
     #
-    # @param [Array] xflags
+    # @param [Array] flags
+    #   Optional attribute names and possibly values
     #
-    def initialize(asite = '', aname = '', atype = '', ntimesused = 0, xvalues = [], xflags = [])
-      raise(ArgumentError, 'asite must not be nil or empty!') if !asite or asite.empty?
-      raise(TypeError, 'asite must be a kind of String or URI!') if !asite.kind_of?(String) and !asite.kind_of?(URI)
+    def initialize(site: '', name: '', type: '', timesused: 0, values: [], flags: [])
+      raise(ArgumentError, 'site must not be nil!') unless site
+      raise(TypeError, 'site must be a kind of String or URI!') if !(site.kind_of?(String) or site.kind_of?(URI))
+      raise(ArgumentError, 'site must not be empty!') if site.kind_of?(String) and site.empty?
 
-      raise(ArgumentError, 'aname must not be nil or empty!') if !aname or aname.empty?
-      raise(TypeError, 'aname must be a kind of String!') if !aname.kind_of?(String)
+      raise(ArgumentError, 'name must not be nil!') unless name
+      raise(TypeError, 'name must be a kind of String!') if !aname.kind_of?(String)
+      raise(ArgumentError, 'name must not be nil!') if !name.empty?
 
-      raise(ArgumentError, 'atype must not be nil or empty!') if !atype or atype.empty?
+      raise(ArgumentError, 'type must not be nil!') unless atype
       raise(TypeError, 'atype must be a kind of String!') if !atype.kind_of?(String)
+      raise(ArgumentError, 'type must not be empty!') if atype.empty?
 
-      raise(ArgumentError, 'ntimesused must not be nil!') if !ntimesused
-      raise(TypeError, 'ntimesused must be a kind of Integer!') if !ntimesused.kind_of?(Integer)
-      raise(RangeError, 'ntimesused must be non-negative!') if ntimesused < 0
+      raise(ArgumentError, 'timesused must not be nil!') if !timesused
+      raise(TypeError, 'timesused must be a kind of Integer!') if !timesused.kind_of?(Integer)
+      raise(RangeError, 'timesused must be non-negative!') if timesused < 0
 
-      raise(ArgumentError, 'xvalues must not be nil!') if !xvalues
-      raise(TypeError, 'xvalues must be a kind of Array!') if !xvalues.kind_of?(Array)
+      raise(ArgumentError, 'values must not be nil!') if !values
+      raise(TypeError, 'values must be a kind of Array!') if !values.kind_of?(Array)
 
-      raise(ArgumentError, 'xflags must not be nil!') if !xflags
-      raise(TypeError, 'xflags must be a kind of Array!') if !xflags.kind_of?(Array)
+      raise(ArgumentError, 'flags must not be nil!') if !flags
+      raise(TypeError, 'flags must be a kind of Array!') if !flags.kind_of?(Array)
+      raise(ArgumentError, 'flags must not be empty!') if flags.empty?
 
-
-      @site, @name, @type, @timesused, @values, @flags = asite, aname, atype, ntimesused, xvalues, xflags
+      @site, @name, @type, @timesused, @values, @flags = site, name, type, ntimesused, values, flags
     end
 
     def to_s
@@ -51,7 +62,6 @@ end
 
 =begin
 {"site"=>"www.oracle.com:80", "name"=>"Connection", "timesUsed"=>"1", "type"=>"header", "Values"=>["keep-alive"]}
-
 
 {"site"=>"versioncheck-bg.addons.mozilla.org:443", "name"=>"id", "timesUsed"=>"8", "type"=>"url", "Values"=>["firefox@getpocket.
 com", "aushelper@mozilla.org", "screenshots@mozilla.org", "{972ce4c6-7e08-4474-a285-3208198ce6fd}", "webcompat@mozilla.org", "firefox-h

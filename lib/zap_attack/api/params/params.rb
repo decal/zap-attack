@@ -1,9 +1,9 @@
-# encoding: utf-8
-
 require 'json'
 require 'open-uri'
 require 'openssl'
 require 'uri'
+
+include ZapAttack::Config
 
 module ZapAttack::API
   #

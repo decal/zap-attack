@@ -1,4 +1,4 @@
-# encoding: utf-8
+# coding: utf-8
 
 module ZapAttack::API
   SITES_JSON = 'https://zap:8080/JSON/core/view/sites'

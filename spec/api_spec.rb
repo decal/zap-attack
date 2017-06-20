@@ -1,4 +1,4 @@
-# encoding: utf-8
+# coding: utf-8
 
 require 'spec_helper'
 require 'zap_attack/api'
@@ -11,11 +11,11 @@ describe Alerts do
   end
 
   it 'Alerts raises a ArgumentError when initialize receives a nil argument' do
-    lambda { Alerts.new(nil) }.should raise_error(ArgumentError)
+    expect { Alerts.new(nil) }.to raise_error(ArgumentError)
   end
 
   it 'Alerts raises a TypeError when initialize receives a non-String and non-URI argument kind' do
-    lambda { Alerts.new(1) }.should raise_error(TypeError)
+    expect { Alerts.new(1) }.to raise_error(TypeError)
   end
 
   subject { Alerts.new }
@@ -39,7 +39,7 @@ describe Hosts do
   end
 
   it 'Hosts raises a TypeError if regex is not a kind of Regexp!' do
-    lambda { Hosts.new(nil) }.should raise_error(TypeError)
+    expect { Hosts.new(nil) }.to raise_error(TypeError)
   end
 
   subject { Hosts.new(%r{^http[s]?[:][/]+}) }
@@ -63,11 +63,11 @@ describe Message do
   end
 
   it 'Message should raise a TypeError when initialize is invoked with an object which is not a kind of Integer' do
-    lambda { Message.new(nil) }.should raise_error(TypeError)
+    expect { Message.new(nil) }.to raise_error(TypeError)
   end
 
   it 'Message should raise a RangeError when idnum is equal to zero!' do
-    lambda { Message.new(0) }.should raise_error(RangeError)
+    expect { Message.new(0) }.to raise_error(RangeError)
     # lambda { Message.new(-1) }.should raise_error(RangeError)
   end
 end

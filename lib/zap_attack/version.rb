@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module ZapAttack
-  VERSION = '0.0.1'
+  VERSION = '0.0.2'
 end

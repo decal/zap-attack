@@ -1,4 +1,4 @@
-# encoding: utf-8
+# coding: utf-8
 
 module ZapAttack::API
   MESSAGE_JSON = 'https://zap:8080/JSON/core/view/message?id='
@@ -28,6 +28,7 @@ module ZapAttack::API
       @json, @text, @mesg = [], '', {}
 
       open("#{MESSAGE_JSON}#{idnum}", OPEN_URI_OPTS) do |x|
+
         if x.content_type.include?('/json') and x.status.first.to_i.eql?(200)
           x.each_line do |l|
             @text << l

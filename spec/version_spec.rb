@@ -1,4 +1,4 @@
-# encoding: utf-8
+# coding: utf-8
 
 require 'spec_helper'
 require 'zap_attack/version'
@@ -29,6 +29,12 @@ describe VERSION do
       v.split('.').each do |n|
         n =~ %r{[0-9]}
       end
+    end
+  end
+
+  it 'VERSION should have two periods' do
+    expect(VERSION).to satisfy do |v|
+      v.count('.').eql?(2)
     end
   end
 end

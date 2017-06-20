@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# encoding: utf-8
+# coding: utf-8
 #
 # Traverse all known directories under web root in search of differing Server
 # fields in the HTTP response header that would indicate configured proxy paths.

@@ -1,4 +1,4 @@
-# encoding: utf-8
+# coding: utf-8
 
 require 'openssl'
 require 'uri'
@@ -12,5 +12,3 @@ module ZapAttack
     DEBUG_ZAPA = true
   end
 end
-
-include ZapAttack::Config

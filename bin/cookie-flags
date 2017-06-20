@@ -1,17 +1,15 @@
 #!/usr/bin/env ruby
-# encoding: utf-8
+# coding: utf-8
 #
 # Form a unique list of names from HTTP response header fields 
 #
 
 require 'zap_attack'
-require 'ipaddr'
 
 include ZapAttack::API
 
-params = Params.new
+cflags, params = [], Params.new
 cookies = params.select { |h| h['type'] == 'cookie' }
-cflags = []
 
 cookies.each do |c|
   xflags = c['Flags']

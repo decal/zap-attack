@@ -1,0 +1,67 @@
+#!/usr/bin/env ruby
+# coding: utf-8
+#
+# Detect cookies with the SameSite flag as specified in the IETF draft:
+#   https://tools.ietf.org/html/draft-west-first-party-cookies-07
+#
+
+require 'zap_attack'
+
+include ZapAttack::API
+
+cflags, cookie = [], Params.new
+
+cookie.select! do |p|
+  p['type'] == 'cookie'
+end
+
+cookie.each do |c|
+  flagls = c['Flags']
+
+  next if !flagls or flagls.empty?
+
+  aname = c['name']
+
+  next if !aname or aname.empty?
+
+  issame = false
+
+  flagls.each do |x|
+    flagat = x.split
+
+    if flagat and !flagat.empty?
+      flagat.each do |s|
+        s.downcase!
+
+        if s.eql?('samesite')
+          issame = true
+
+          c['Values'].each do |v|
+            STDOUT.puts("Set-Cookie: #{aname}=#{v} #{flagls}")
+          end
+        end
+
+        break if issame
+      end
+    else
+      x.downcase!
+
+      if x.eql?('samesite')
+        issame = true
+
+        c['Values'].each do |v|
+          STDOUT.puts("Set-Cookie: #{aname}=#{v} #{flagls}")
+        end
+      end
+
+      break if issame
+    end # if flagat and !flagat.empty?
+  end # flagls.each
+
+  cflags << flagls
+end # cookie.each
+
+cflags.sort!
+cflags.uniq!
+
+exit 0

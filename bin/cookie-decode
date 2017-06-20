@@ -1,0 +1,121 @@
+#!/usr/bin/env ruby
+# coding: utf-8
+#
+# Decode cookies that string encodings are detected for
+#
+
+require 'base16'
+require 'base64'
+require 'htmlentities'
+require 'rbkb'
+require 'zap_attack'
+
+
+include ZapAttack::API
+
+output, params = Array.new, Params.new
+cookies = params.select { |h| h['type'] == 'cookie' }
+
+cookies.each do |c|
+  values = c['Values']
+
+  values.each do |v|
+    s, acnt, aflag = v.dup, 0, true
+
+    loop do
+      break if acnt >= 2
+
+      if v.is_base16? 
+        begin
+          s = Base16.decode16(s)
+          aflag = false
+        rescue Exception => e
+          STDERR.puts('Cookie value appears to be Base16 (hexadecimal), but could not decode!')
+        end
+      end
+
+      if v.is_base64?
+        begin
+          s = Base64.urlsafe_decode64(s)
+          aflag = false
+        rescue Exception => e1
+          begin
+            s = Base64.strict_decode64(s)
+            aflag = false
+          rescue Exception => e2
+            begin
+              s = Base64.decode64(s)
+              aflag = false
+            rescue Exception => e3
+              STDERR.puts("#{e1} #{e2} #{e3}")
+            end # e3
+          end # e2
+        end # e1
+
+        if s.size.zero?
+          STDERR.print('Cookie value appears to be Base64, but could not decode!')
+          STDERR.puts(v)
+
+          break
+        end
+      end
+
+      if v.match(%r{&[^&]+;})
+        b = true
+
+        begin
+          if b
+            s = CGI.unescapeHTML(s)
+            aflag = false
+          else
+            s = HTMLEntities.new.decode(s)
+            aflag = false
+          end
+        rescue Exception => e
+          if b
+            b = false
+
+            retry
+          else
+            STDERR.puts('Cookie value appears to have HTML entities, but could not decode!')
+          end # if b
+        end # begin
+      end # if v.match
+
+      if aflag
+        iflag = false
+
+        output.each do |i|
+          if i[:name].eql?(c['name'])
+            iflag = true
+
+            break
+          end
+        end
+
+        if iflag
+          output.map do |w| 
+            if w[:name].eql?(c['name'])
+              w[:value] << s
+
+              break
+            end
+          end
+        else
+          output << { :name => c['name'], :value => [ s ] }
+        end # if output.include?
+      end # if aflag
+
+      acnt += 1
+    end # loop do
+  end # values.each
+end # cookies.each
+
+output.each do |o|
+  o[:value].sort!
+  o[:value].uniq!
+
+  STDOUT.puts("#{o[:name]} => #{o[:value]}")
+end # output.each
+
+exit 0

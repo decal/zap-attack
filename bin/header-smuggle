@@ -1,0 +1,62 @@
+#!/usr/bin/env ruby
+# coding: utf-8
+#
+# Use a variety of techniques to smuggle HTTP request headers through 
+#   intermediate web server parsing/processing/handling/etc.
+#
+
+require 'zap_attack'
+
+include ZapAttack, ZapAttack::API, ZapAttack::Data
+
+headers = Params.new
+
+headers.select! do |h|
+  h['type'].eql?('header') 
+end
+
+names = []
+
+headers.each do |h|
+  aname = h['name']
+  lname = aname.dup
+
+  lname.downcase!
+
+  namez = names.select do |x| 
+    x.downcase!
+    
+    x.eql?(lname) 
+  end
+
+  names.concat( [ aname ] ) if namez.size.zero?
+end
+
+extra = []
+
+names.each do |n|
+  danam = n.dup
+
+  danam.downcase!
+
+  if danam.start_with?('x-')
+    extra << n[2 .. -1] 
+  else
+    extra << "X-#{n}"
+  end
+
+  if danam.is_upper?
+    danam.downcase!
+  else
+    if danam.is_lower?
+      danam.upcase!
+    end
+  end
+
+  extra << danam
+end
+
+puts names
+puts extra
+
+exit 0

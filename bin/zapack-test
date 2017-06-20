@@ -1,10 +1,11 @@
 #!/usr/bin/env ruby
-# encoding: utf-8
+# coding: utf-8
 #
 
 require 'zap_attack'
 
-include ZapAttack, ZapAttack::API, ZapAttack::Config
+include ZapAttack
+include API, Config
 
 m = Message.new(8)
 
@@ -14,8 +15,6 @@ if DEBUG_ZAPA
   STDERR.puts("Message.mesg: #{m.message}")
 end
 
-exit 0
-
 u = Urls.new
 
 if DEBUG_ZAPA
@@ -24,9 +23,9 @@ if DEBUG_ZAPA
   STDERR.puts("Urls.urls: #{u.urls}")
 end
 
-Sites.new() { |x|
+Sites.new do |x|
  p x
-}
+end
 
 =begin
 s = Sites.new
@@ -39,9 +38,9 @@ end
 =end
 
 
-Alerts.new() { |x|
+Alerts.new do |x|
   p x
-}
+end
 
 =begin
 z = Alerts.new
@@ -53,8 +52,8 @@ if DEBUG_ZAPA
 end
 =end
 
-Hosts.new() { |h|
+Hosts.new() do |h|
   p h
-}
+end
 
 exit 0
