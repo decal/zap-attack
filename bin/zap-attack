@@ -38,7 +38,7 @@ dirs.power_set do |x|
   uri_paths << x 
 end
 
-File.readlines('data/dirs.txt').each do |l|
+File.readlines('share/dirs.txt').each do |l|
   l.rstrip!
 
   data_dirs << l
