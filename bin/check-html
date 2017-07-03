@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# coding: utf-8
+#
+# Parse directory names from HTML markup to scan with DIRB lists
+#
+
+exit 0

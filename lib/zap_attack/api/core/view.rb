@@ -1,0 +1,7 @@
+require 'zap_attack/api/core/view/alerts'
+require 'zap_attack/api/core/view/hosts'
+require 'zap_attack/api/core/view/message'
+require 'zap_attack/api/core/view/session_location'
+require 'zap_attack/api/core/view/sites'
+require 'zap_attack/api/core/view/urls'
+require 'zap_attack/api/core/view/version'

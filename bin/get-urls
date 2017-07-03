@@ -8,8 +8,14 @@ include ZapAttack::API
 
 urls = Urls.new
 
-urls.each do |u|
-  puts u
+if !ARGV.empty?
+  urls.each do |u|
+    STDOUT.puts(u) if u.include?(ARGV.first)
+  end
+else
+  urls.each do |u|
+    puts u
+  end
 end
 
 exit 0

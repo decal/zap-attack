@@ -1,6 +1,7 @@
 # coding: utf-8
 
 require 'spec_helper'
+require 'pathname'
 require 'zap_attack/api'
 
 include ZapAttack, ZapAttack::API
@@ -69,6 +70,102 @@ describe Message do
   it 'Message should raise a RangeError when idnum is equal to zero!' do
     expect { Message.new(0) }.to raise_error(RangeError)
     # lambda { Message.new(-1) }.should raise_error(RangeError)
+  end
+end
+
+describe Version do
+  it 'Version should be derived from String' do
+    expect(Version).to be < String
+  end
+
+  subject { Version.new }
+
+  it 'Version responds to json' do
+    expect(subject).to respond_to(:json)
+  end
+
+  it 'Version responds to text' do
+    expect(subject).to respond_to(:text)
+  end
+
+  it 'Version responds to version' do
+    expect(subject).to respond_to(:version)
+  end
+
+  it 'Version matches SemVer syntax' do
+    expect(subject.split('.').first.to_i).to eq 2
+  end
+end
+
+describe DeleteAllAlerts do
+  it 'DeleteAllAlerts should be derived from String' do
+    expect(DeleteAllAlerts).to be < String
+  end
+
+  subject { DeleteAllAlerts.new }
+
+  it 'DeleteAllAlerts responds to json' do
+    expect(subject).to respond_to(:json)
+  end
+
+  it 'DeleteAllAlerts responds to text' do
+    expect(subject).to respond_to(:text)
+  end
+
+  it 'DeleteAllAlerts responds to rmall' do
+    expect(subject).to respond_to(:rmall)
+  end
+
+  it 'DeleteAllAlerts instance equals "OK"' do
+    expect(subject).to eq "OK"
+  end
+end
+
+describe RunGarbageCollection do
+  it 'RunGarbageCollection should be derived from String' do
+    expect(RunGarbageCollection).to be < String
+  end
+
+  subject { RunGarbageCollection.new }
+
+  it 'RunGarbageCollection responds to json' do
+    expect(subject).to respond_to(:json)
+  end
+
+  it 'RunGarbageCollection responds to text' do
+    expect(subject).to respond_to(:text)
+  end
+
+  it 'RunGarbageCollection responds to rungc' do
+    expect(subject).to respond_to(:rungc)
+  end
+
+  it 'RunGarbageCollection instance equals "OK"' do
+    expect(subject).to eq "OK"
+  end
+end
+
+describe SessionLocation do
+  it 'SessionLocation should be derived from String' do
+    expect(SessionLocation).to be < String
+  end
+
+  subject { SessionLocation.new }
+
+  it 'SessionLocation responds to json' do
+    expect(subject).to respond_to(:json)
+  end
+
+  it 'SessionLocation responds to text' do
+    expect(subject).to respond_to(:text)
+  end
+
+  it 'SessionLocation responds to sess' do
+    expect(subject).to respond_to(:sess)
+  end
+
+  it 'SessionLocation instance syntactically matches a path name String' do
+    expect(Pathname.new(subject).to_s.end_with?('session'))
   end
 end
 

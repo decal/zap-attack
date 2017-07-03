@@ -1,0 +1,70 @@
+#!/usr/bin/env ruby
+# coding: utf-8
+#
+# Check known URL dirs against DIRB lists
+#
+
+require 'zap_attack'
+require 'open-uri'
+require 'openssl'
+require 'resolv-replace'
+require 'uri'
+
+include ZapAttack::API
+
+if ARGV.size < 2
+  STDERR.puts("usage: #{$0} HOST FILE")
+  STDERR.puts("")
+  STDERR.puts("  HOST  name of host scan unique directories of")
+  STDERR.puts("  FILE  file containing paths to append directories with")
+  STDERR.puts("")
+
+  exit 1
+end
+
+aopts = { :proxy => 'http://127.0.0.1:8080/', :redirect => false, :read_timeout => 8, :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE }
+
+urlz, urls = Array.new, Urls.new
+
+urls.each do |u|
+  next if !u.include?(ARGV.first)
+
+  auri = URI(u)
+  urlz << File.dirname(u)
+end
+
+urlz.sort!
+urlz.uniq!
+
+urlz.each do |x|
+  x.strip!
+
+  next if x.empty?
+  next if x.eql?('https:') or x.eql?('http:')
+
+  begin
+    File.readlines(ARGV[1]).each do |y|
+      y.strip!
+
+      next if y.empty?
+
+      anurl = "#{x}/#{y}"
+
+      begin
+        open(anurl, aopts) do |h|
+          STDOUT.puts(anurl) if h.status.first.to_i.eql?(200)
+        end
+      rescue Exception => e
+        next if e.to_s.start_with?('404')
+
+        STDERR.puts("inner: #{anurl} #{e}")
+      end
+    end
+  rescue Exception => e
+    next if e.to_s.start_with?('404')
+
+    STDERR.puts("outer: #{anurl} #{e}")
+  end
+end
+
+exit 0
