@@ -1,3 +1,3 @@
 module ZapAttack
-  VERSION = '0.0.4'
+  VERSION = '0.2.1'
 end

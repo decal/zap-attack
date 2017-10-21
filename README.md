@@ -6,7 +6,7 @@ procedures based on the information made available as JSON via the OWASP ZAP API
 
 ## References
 
-* [zap-attack code repository](https://github.com/decal/zap-attack "decal's zap_attack repository at GitHub")
+* [zap-attack code repository](https://github.com/decal/zap-attack "decal's zap-attack repository at GitHub")
 * [OWASP ZAP API](https://github.com/zaproxy/zaproxy/wiki/ApiDetails "zaproxy's ApiDetails wiki at GitHub")
 * [OWASP Zed Attack Proxy Project](https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project "ZAP Project Home Page at OWASP")
 * [Ruby Wrapper for ZAP](https://rubygems.org/gems/owasp_zap "owasp_zap gem at RubyGems.org")

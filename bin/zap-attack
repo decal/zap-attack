@@ -3,10 +3,9 @@
 #
 
 require 'zap_attack'
-require 'combinatorics'
-require 'openssl'
+# require 'openssl'
 require 'resolv-replace'
-require 'open-uri'
+# require 'open-uri'
 
 include ZapAttack, ZapAttack::API, ZapAttack::Config
 

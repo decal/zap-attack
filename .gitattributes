@@ -2,3 +2,7 @@
 CMakeLists.txt		export-subst
 git-hash.sh		export-subst
 tests/test0.bat		-text
+*.sh	eol=lf
+*.bat	eol=crlf
+*.txt	eol=lf
+*.js    eol=lf

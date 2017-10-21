@@ -4,7 +4,33 @@ require 'uri'
 
 module ZapAttack::Data
   class Result
-    attr_reader :reason, :method, :message_id, :url, :status_code
+    #
+    # @!attribute [r] reason
+    #   @return [String] the HTTP status line message
+    #
+    attr_reader :reason
+    #
+    # @!attribute [r] method
+    #   @return [String] the HTTP request action sent to for this response
+    #
+    attr_reader :method
+    #
+    # @!attribute [r] message_id
+    #   @return [Fixnum] unique numeric identifier for this result
+    #
+    attr_reader :message_id
+   
+    #
+    # @!attribute [r] url
+    #   @return [String] The location that was spidered to retrieve this page 
+    #
+    attr_reader :url
+   
+    #
+    # @!attribute [r] status_code
+    #   @return [Fixnum] The HTTP reply status code
+    #
+    attr_reader :status_code
 
     #
     # Allocate and initialize individual result item from full AJAX Spider scan.
@@ -13,7 +39,7 @@ module ZapAttack::Data
     #   HTTP status string, i.e. "OK" for response with numeric status code 200  
     #
     # @param [String] method
-    #   HTTP request action that was made to spider sub-section of web site
+    #   HTTP request action used while spidering this part of the web site
     #   
     # @see ZapAttack::HTTP::METHODS
     #
@@ -24,7 +50,7 @@ module ZapAttack::Data
     #   Location of document that was accessed during AJAX Spider scan
     #
     # @param [Integer] status_code
-    #   HTTP code representing web server context within response processing
+    #   HTTP code representing web server state when fetching this response
     #
     # @see ZapAttack::AjaxSpider.scan
     # @see ZapAttack::AjaxSpider.full_results

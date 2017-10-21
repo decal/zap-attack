@@ -1,5 +1,7 @@
 require 'rubygems'
-require 'rake'
+require 'rubygems/tasks'
+
+Gem::Tasks.new
 
 begin
   gem 'rspec', '~> 3.6.0'

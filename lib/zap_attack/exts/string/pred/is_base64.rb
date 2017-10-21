@@ -3,6 +3,9 @@
 class String
   BASE64_CHAR_REGEX = %r{[A-Za-z0-9/+=]}
 
+  #
+  # @return [Boolean] if this string resembles Base64 encoding
+  #
   def is_base64?
     anarr = self.split(//)
 

@@ -5,6 +5,7 @@
 #
 
 require 'base16'
+require 'base62'
 require 'base64'
 require 'htmlentities'
 require 'rbkb'
@@ -52,7 +53,7 @@ cookies.each do |c|
           end # e2
         end # e1
 
-        if s.size.zero?
+        if s.empty?
           STDERR.print('Cookie value appears to be Base64, but could not decode!')
           STDERR.puts(v)
 
@@ -66,11 +67,11 @@ cookies.each do |c|
         begin
           if b
             s = CGI.unescapeHTML(s)
-            aflag = false
           else
             s = HTMLEntities.new.decode(s)
-            aflag = false
           end
+
+          aflag = false
         rescue Exception => e
           if b
             b = false

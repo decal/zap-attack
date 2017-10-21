@@ -3,6 +3,9 @@
 class String
   UPPER_REGEX = %r{[A-Z]+}
 
+  # 
+  # @return [Boolean] if this string is only composed of capital letters
+  #
   def is_upper?
     self.match?(UPPER_REGEX)
   end

@@ -1,6 +1,3 @@
-require 'zap_attack/exts/string/is_alnum'
-require 'zap_attack/exts/string/is_base16'
-require 'zap_attack/exts/string/is_base64'
-require 'zap_attack/exts/string/is_digit'
-require 'zap_attack/exts/string/is_lower'
-require 'zap_attack/exts/string/is_upper'
+# coding: utf-8
+
+require 'zap_attack/exts/string/pred'

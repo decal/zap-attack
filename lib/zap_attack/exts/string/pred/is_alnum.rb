@@ -1,8 +1,11 @@
 # coding: utf-8
 
 class String
-  ALNUM_REGEX = %r{[A-Fa-f0-9]+}
+  ALNUM_REGEX = %r{[A-Za-z0-9]+}
 
+  #
+  # @return [Boolean] if this string is only composed of alphanumeric characters
+  #
   def is_alnum?
     self.match?(ALNUM_REGEX)
   end

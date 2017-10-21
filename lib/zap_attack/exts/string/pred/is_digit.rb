@@ -3,6 +3,9 @@
 class String
   DIGIT_REGEX = %r{[0-9]+}
 
+  # 
+  # @return [Boolean] if this string is only composed of numeric digits
+  #
   def is_digit?
     self.match?(DIGIT_REGEX)    
   end

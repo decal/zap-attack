@@ -3,6 +3,9 @@
 class String
   LOWER_REGEX = %r{[a-z]+}
 
+  #
+  # @return [Boolean] if this string is only composed of lowercase letters
+  #
   def is_lower?
     self.match?(LOWER_REGEX)
   end
