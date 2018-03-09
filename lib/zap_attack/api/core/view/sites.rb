@@ -3,14 +3,24 @@
 module ZapAttack::API
   SITES_JSON = 'https://zap:8080/JSON/core/view/sites'
 
-  #
-  # @param [Proc] block code to apply to each site
-  # @return [Array] An Array of URI String's or an empty Array
-  # @example urlarray = ZapAttack::Core.urls.new()
-  # @see http://zap:8080/JSON/core/view/urls/?zapapiformat=JSON
-  #
   class Sites < Array
-    attr_reader :json, :text, :sites
+    #
+    # @attr_reader [JSON] json
+    #   OWASP ZAP Web API JavaScript Object Notation
+    #
+    attr_reader :json
+
+    #
+    # @attr_reader [String] text
+    #   HTTP response body content from the OWASP ZAP Web API
+    #
+    attr_reader :text
+
+    #
+    # @attr_reader [Array#String] sites
+    #   List of sites visited by the OWASP Zed Attack Proxy
+    #
+    attr_reader :sites
 
     def initialize
       @sites, @json, @text = [], [], ''

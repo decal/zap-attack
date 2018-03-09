@@ -104,7 +104,6 @@
 # Host: www.target.host
 # 
 
-
 require 'ansi'
 require 'facets'
 require 'zap_attack'
@@ -147,9 +146,7 @@ names.each do |n|
   if danam.is_upper?
     danam.downcase!
   else
-    if danam.is_lower?
-      danam.upcase!
-    end
+    danam.upcase! if danam.is_lower?
   end
 
   extra << danam
@@ -163,6 +160,6 @@ extra.uniq!
 
 hedrs = names + extra
 
-puts hedrs
+STDOUT.puts(hedrs)
 
 exit 0

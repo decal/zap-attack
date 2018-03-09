@@ -34,7 +34,7 @@ module ZapAttack::Data
 
       raise(ArgumentError, 'name must not be nil!') unless name
       raise(TypeError, 'name must be a kind of String!') if !aname.kind_of?(String)
-      raise(ArgumentError, 'name must not be nil!') if !name.empty?
+      raise(ArgumentError, 'name must not be empty!') if name.empty?
 
       raise(ArgumentError, 'type must not be nil!') unless atype
       raise(TypeError, 'atype must be a kind of String!') if !atype.kind_of?(String)
@@ -52,8 +52,14 @@ module ZapAttack::Data
       raise(ArgumentError, 'flags must not be empty!') if flags.empty?
 
       @site, @name, @type, @timesused, @values, @flags = site, name, type, ntimesused, values, flags
+
+      self
     end
 
+    #
+    # @method to_s
+    #   Summarize this alert object into a detailed summary string
+    #
     def to_s
       "#{@site} #{@name} #{@type} #{@timesused} #{@values} #{@flags}"
     end
@@ -63,10 +69,7 @@ end
 =begin
 {"site"=>"www.oracle.com:80", "name"=>"Connection", "timesUsed"=>"1", "type"=>"header", "Values"=>["keep-alive"]}
 
-{"site"=>"versioncheck-bg.addons.mozilla.org:443", "name"=>"id", "timesUsed"=>"8", "type"=>"url", "Values"=>["firefox@getpocket.
-com", "aushelper@mozilla.org", "screenshots@mozilla.org", "{972ce4c6-7e08-4474-a285-3208198ce6fd}", "webcompat@mozilla.org", "firefox-h
-otfix@mozilla.org", "e10srollout@mozilla.org", "{73a6fe31-595d-460b-a920-fcc0f8843232}"]}
+{"site"=>"versioncheck-bg.addons.mozilla.org:443", "name"=>"id", "timesUsed"=>"8", "type"=>"url", "Values"=>["firefox@getpocket.com", "aushelper@mozilla.org", "screenshots@mozilla.org", "{972ce4c6-7e08-4474-a285-3208198ce6fd}", "webcompat@mozilla.org", "firefox-hotfix@mozilla.org", "e10srollout@mozilla.org", "{73a6fe31-595d-460b-a920-fcc0f8843232}"]}
 
-{"site"=>"tags.bluekai.com:443", "name"=>"bkdc", "timesUsed"=>"4", "type"=>"cookie", "Flags"=>["path=/", "domain=.bluekai.com",
-"expires=Sat, 09-Dec-2017 01:36:16 GMT"], "Values"=>["phx", "wdc"]}
+{"site"=>"tags.bluekai.com:443", "name"=>"bkdc", "timesUsed"=>"4", "type"=>"cookie", "Flags"=>["path=/", "domain=.bluekai.com", "expires=Sat, 09-Dec-2017 01:36:16 GMT"], "Values"=>["phx", "wdc"]}
 =end

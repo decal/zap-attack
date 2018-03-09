@@ -1,10 +1,10 @@
-# Ruby Gem to Interact With the API Exposed by the Local Proxy in OWASP ZAP
+# Ruby Gem to Interact With the API Exposed by the Local Proxy in OWASP ZAP :zap:
 
 The purpose of this gem is to facilitate launching automated scans and testing
 procedures based on the information made available as JSON via the OWASP ZAP API.
 [OWASP ZAP API](https://github.com/zaproxy/zaproxy/wiki/ApiDetails "zaproxy's ApiDetails wiki at GitHub")
 
-## References
+## References :page_with_curl:
 
 * [zap-attack code repository](https://github.com/decal/zap-attack "decal's zap-attack repository at GitHub")
 * [OWASP ZAP API](https://github.com/zaproxy/zaproxy/wiki/ApiDetails "zaproxy's ApiDetails wiki at GitHub")

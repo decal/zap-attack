@@ -4,6 +4,34 @@ require 'uri'
 
 module ZapAttack::Data
   class Alert
+    #
+    # @attr_reader cwe [Integer] 
+    #   The numeric identifier for referencing a MITRE CWE (Common Weakness Enumeration) item
+    #
+    # @attr_reader name [String]
+    #   Brief string defining the type of vulnerability alert 
+    #
+    # @attr_reader url [String, URI]
+    #   Location where the vulnerability was automatically detected by the scanner
+    #
+    # @attr_reader method [String]
+    #   The HTTP protocol action (sometimes called verb) in use during the alert
+    #
+    # @attr_reader description [String]
+    #   A more detailed summary of the vulnerability alert
+    #
+    # @attr_reader reference [String]
+    #   Somewhere that more information on the vulnerability alert can be found 
+    #
+    # @attr_reader solution [String]
+    #   How to remedy the detected issue
+    #
+    # @attr_reader risk [String]
+    #   Severity of the detected vulnerability's impact on the affected system
+    #
+    # @attr_reader attack [String]
+    #   Describe the steps to reproduce the weakness
+    #   
     attr_reader :cwe, :name, :url, :method, :description, :reference, :solution, :risk, :attack
 
     alias :threat :description
@@ -45,7 +73,7 @@ module ZapAttack::Data
     # @param [String] name
     #   Terse title that describes the vulnerability described by the ZAP alert
     #
-    # @param [String] url
+    # @param [String, URI] url
     #   Location corresponding to where the weakness was detected 
     #
     # @param [String] method
@@ -105,6 +133,20 @@ module ZapAttack::Data
       self
     end
 
+    #
+    # Convert this Alert Object into a String summarizing all instance variables
+    #
+    # @method to_s
+    #
+    # @see Object
+    # @see String
+    # @see ZapAttack::Data::Alert
+    #
+    # @return [String] the contents of this Alert object
+    #
+    # @example Summarize a local alert variable object into an individual string 
+    #   "analert.to_s" #=> "Incomplete or No Cache-control and Pragma HTTP Header Set https://secure.informaction.com/ipecho/ Low The cache-control and pragma HTTP header have not been set properly or are missing allowing the browser and proxies to cache content. Whenever possible ensure the cache-control HTTP header is set with no-cache, no-store, must-revalidate; and that the pragma HTTP header is set with no-cache, no-store, must-revalidate; and that the pragma HTTP header is set with no-cache. https://www.owasp.org/index.php/Session_Management_Cheat_Sheet"
+    #
     def to_s
       "#{@name} #{@url} #{@risk} #{@description} #{@solution} #{@reference}"
     end
@@ -112,9 +154,5 @@ module ZapAttack::Data
 end
 
 =begin
-{"sourceid"=>"3", "other"=>"", "method"=>"GET", "evidence"=>"", "pluginId"=>"10015", "cweid"=>"525", "confidence"=>"Medium", "wascid"=>"13", "description"=>"The cache-co
-ntrol and pragma HTTP header have not been set properly or are missing allowing the browser and proxies to cache content.", "messageId"=>"1724", "url"=>"https://secure.i
-nformaction.com/ipecho/", "reference"=>"https://www.owasp.org/index.php/Session_Management_Cheat_Sheet#Web_Content_Caching", "solution"=>"Whenever possible ensure the ca
-che-control HTTP header is set with no-cache, no-store, must-revalidate; and that the pragma HTTP header is set with no-cache.", "alert"=>"Incomplete or No Cache-control
- and Pragma HTTP Header Set", "param"=>"Cache-Control", "attack"=>"", "name"=>"Incomplete or No Cache-control and Pragma HTTP Header Set", "risk"=>"Low", "id"=>"637"}
+{"sourceid"=>"3", "other"=>"", "method"=>"GET", "evidence"=>"", "pluginId"=>"10015", "cweid"=>"525", "confidence"=>"Medium", "wascid"=>"13", "description"=>"The cache-control and pragma HTTP header have not been set properly or are missing allowing the browser and proxies to cache content.", "messageId"=>"1724", "url"=>"https://secure.informaction.com/ipecho/", "reference"=>"https://www.owasp.org/index.php/Session_Management_Cheat_Sheet#Web_Content_Caching", "solution"=>"Whenever possible ensure the cache-control HTTP header is set with no-cache, no-store, must-revalidate; and that the pragma HTTP header is set with no-cache.", "alert"=>"Incomplete or No Cache-control and Pragma HTTP Header Set", "param"=>"Cache-Control", "attack"=>"", "name"=>"Incomplete or No Cache-control and Pragma HTTP Header Set", "risk"=>"Low", "id"=>"637"}
 =end

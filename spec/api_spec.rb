@@ -195,7 +195,9 @@ describe ALERTS_JSON do
   end
 
   it 'ALERTS_JSON should be able to instantiate as a URI' do
-    expect(ALERTS_JSON).to satisfy { |u| URI(u) }
+    expect(ALERTS_JSON).to satisfy do |u| 
+      URI(u)
+    end
   end
 end
 
@@ -213,7 +215,9 @@ describe MESSAGE_JSON do
   end
 
   it 'MESSAGE_JSON should be able to instantiate as a URI' do
-    expect(MESSAGE_JSON).to satisfy { |u| URI(u) }
+    expect(MESSAGE_JSON).to satisfy do |u| 
+      URI(u)
+    end
   end
 end
 
@@ -231,7 +235,9 @@ describe SITES_JSON do
   end
 
   it 'SITES_JSON should be able to instantiate as a URI' do
-    expect(SITES_JSON).to satisfy { |u| URI(u) }
+    expect(SITES_JSON).to satisfy do |u| 
+      URI(u)
+    end
   end
 end
 
@@ -249,6 +255,8 @@ describe URLS_JSON do
   end
 
   it 'URLS_JSON should be able to instantiate as a URI' do
-    expect(URLS_JSON).to satisfy { |u| URI(u) }
+    expect(URLS_JSON).to satisfy do |u| 
+      URI(u)
+    end
   end
 end

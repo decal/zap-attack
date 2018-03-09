@@ -4,7 +4,23 @@ module ZapAttack::API
   HOSTS_JSON = 'https://zap:8080/JSON/core/view/hosts'
 
   class Hosts < Array
-    attr_reader :json, :text, :hosts
+    #
+    # @attr_reader [JSON] json
+    #   JavaScript Object Notation from the OWASP ZAP Web API
+    #
+    attr_reader :json
+    
+    #
+    # @attr_reader [String] text
+    #   OWASP ZAP Web API HTTP response body content
+    #
+    attr_reader :text
+    
+    #
+    # @attr_reader [Array#String] hosts
+    #   list of host names used by OWASP Zed Attack Proxy
+    #
+    attr_reader :hosts
 
     #
     # Instantiate custom Ruby Array Object by parsing hosts from ZAP API JSON

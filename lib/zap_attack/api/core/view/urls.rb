@@ -4,7 +4,23 @@ module ZapAttack::API
   URLS_JSON = 'https://zap:8080/JSON/core/view/urls'
 
   class Urls < Array
-    attr_reader :json, :text, :urls
+    #
+    # @attr_reader [Array#JSON] json
+    #   JavaScript Object Notation from OWASP ZAP API HTTP response
+    #
+    attr_reader :json
+    
+    #
+    # @attr_reader [String] text
+    #   HTTP response body content
+    #
+    attr_reader :text
+
+    #
+    # @attr_reader [Array#URI] urls
+    #   Array of URI's returned by the OWASP ZAP API reply
+    #
+    attr_reader :urls
 
     #
     # Instantiate custom Ruby Array Object by parsing URL's from ZAP API JSON

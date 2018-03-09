@@ -40,8 +40,6 @@ cookie.each do |c|
             STDOUT.puts("Set-Cookie: #{aname}=#{v} #{flagls}")
           end
         end
-
-        break if issame
       end
     else
       x.downcase!
@@ -53,9 +51,9 @@ cookie.each do |c|
           STDOUT.puts("Set-Cookie: #{aname}=#{v} #{flagls}")
         end
       end
-
-      break if issame
     end # if flagat and !flagat.empty?
+
+    break if issame
   end # flagls.each
 
   cflags << flagls

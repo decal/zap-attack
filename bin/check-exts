@@ -14,10 +14,10 @@ include ZapAttack::API
 
 if ARGV.size < 2
   STDERR.puts("usage: #{$0} HOST FILE")
-  STDERR.puts("")
-  STDERR.puts("  HOST  name of host scan unique directories of")
-  STDERR.puts("  FILE  file containing paths to append directories with")
-  STDERR.puts("")
+  STDERR.puts
+  STDERR.puts('  HOST  name of host scan unique directories of')
+  STDERR.puts('  FILE  file containing paths to append directories with')
+  STDERR.puts
 
   exit 1
 end
@@ -39,8 +39,7 @@ urlz.uniq!
 urlz.each do |x|
   x.strip!
 
-  next if x.empty?
-  next if x.eql?('https:') or x.eql?('http:')
+  next if x.empty? or x.eql?('https:') or x.eql?('http:')
 
   begin
     File.readlines(ARGV[1]).each do |y|
