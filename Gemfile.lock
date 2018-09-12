@@ -34,7 +34,7 @@ PLATFORMS
 DEPENDENCIES
   combinatorics (~> 0.4.3)
   json (~> 2.1.0)
-  openssl (~> 2.0.3)
+  openssl (~> 2)
   rake (~> 12.0)
   rspec (~> 3.6)
   rubygems-tasks (~> 0.2)
@@ -45,4 +45,4 @@ RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.15.0
+   1.16.1

@@ -2,6 +2,7 @@
 # coding: utf-8
 #
 
+require 'combinatorics'
 require 'zap_attack'
 # require 'openssl'
 require 'resolv-replace'

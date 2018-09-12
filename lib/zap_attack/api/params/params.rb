@@ -1,6 +1,6 @@
 require 'json'
-require 'open-uri'
 require 'openssl'
+require 'open-uri'
 require 'uri'
 
 include ZapAttack::Config
