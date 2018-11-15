@@ -6,7 +6,7 @@ description:
   attacks against a particular web site.
 license: MIT
 authors: Derek Callaway
-email: derek.callaway@ioactive.com
+email: decal@sdf.org
 homepage: https://github.com/decal/zap_attack
 has_yard: true
 
