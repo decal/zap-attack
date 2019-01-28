@@ -95,7 +95,7 @@ module ZapAttack::Data
     #   Set to true if the rule is activated
     #
     # @see ZapAttack::Replacer::Rules
-    # @see https://zap/json/replacer/view/rules/
+    # @see http://zap/json/replacer/view/rules/
     # @see https://github.com/zaproxy/zaproxy/blob/develop/src/org/parosproxy/paros/network/HttpSender.java
     #
     # @example Initialize a new rule object

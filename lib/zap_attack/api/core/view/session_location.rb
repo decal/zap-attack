@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module ZapAttack::API
-  SESSLOC_JSON = 'https://zap:8080/JSON/core/view/sessionLocation'
+  SESSLOC_JSON = 'http://zap:8080/JSON/core/view/sessionLocation'
 
   #
   # Get the filesystem location of the current ZAP session file.

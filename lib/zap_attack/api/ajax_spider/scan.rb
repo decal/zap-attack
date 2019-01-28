@@ -5,7 +5,7 @@ require 'uri'
 module ZapAttack::API
   module AjaxSpider
 
-    AJAX_SPIDER_JSON = 'https://zap:8080/JSON/ajaxSpider/action/scan/?formMethod=GET&url='
+    AJAX_SPIDER_JSON = 'http://zap:8080/JSON/ajaxSpider/action/scan/?formMethod=GET&url='
 
     attr_reader :json, :text, :scan
 

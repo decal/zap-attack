@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module ZapAttack::API
-  RUNGC_JSON = 'https://zap:8080/JSON/core/action/runGarbageCollection'
+  RUNGC_JSON = 'http://zap:8080/JSON/core/action/runGarbageCollection'
 
   #
   # Run garbage collection in the ZAP API JVM.

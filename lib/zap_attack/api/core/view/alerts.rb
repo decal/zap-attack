@@ -4,7 +4,7 @@ module ZapAttack::API
   #
   # URL to access alerts via ZAP API with baseurl parameter to narrow results
   #
-  ALERTS_JSON = 'https://zap:8080/JSON/core/view/alerts?baseurl='
+  ALERTS_JSON = 'http://zap:8080/JSON/core/view/alerts?baseurl='
 
   class Alerts < Array
     attr_reader :json, :text, :alerts
@@ -32,7 +32,7 @@ module ZapAttack::API
     #
     # @see 
     #   ZapAttack::Data::Alert
-    #   https://zap:8080/JSON/core/view/alerts
+    #   http://zap:8080/JSON/core/view/alerts
     #
     def initialize(abase = '')
       raise(ArgumentError, 'abase cannot be nil!') if !abase

@@ -4,7 +4,7 @@ module ZapAttack
 end
 
 module ZapAttack::API
-  AXISURL_JSON = 'https://zap:8080/JSON/core/action/accessUrl?formMethod=%s&followRedirects=%d&url=%s'
+  AXISURL_JSON = 'http://zap:8080/JSON/core/action/accessUrl?formMethod=%s&followRedirects=%d&url=%s'
   ACCESSURL_JSON = AXISURL_JSON
   DEFAULT_OPTN = { :method => 'GET', :redirs => 1 }.freeze
 
@@ -13,7 +13,7 @@ module ZapAttack::API
   #
   # @return [Array#Hash#String,String] Parsed JSON keys/values representing request/response headers/body/etc.
   # @example http_hash = ZapAttack::API.AccessUrl.new('https://google.com')
-  # @see https://zap:8080/JSON/core/action/accessUrl
+  # @see http://zap:8080/JSON/core/action/accessUrl
   #
   class AccessUrl < Array
     attr_reader :json, :text, :http

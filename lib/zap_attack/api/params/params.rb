@@ -9,7 +9,7 @@ module ZapAttack::API
   #
   # URL to access params via ZAP API
   #
-  PARAMS_JSON = 'https://zap:8080/JSON/params/view/params'
+  PARAMS_JSON = 'http://zap:8080/JSON/params/view/params'
 
   class Params < Array
     attr_reader :json, :text, :params
@@ -37,7 +37,7 @@ module ZapAttack::API
     #
     # @see 
     #   ZapAttack::Data::Param
-    #   https://zap:8080/JSON/params/view/params
+    #   http://zap:8080/JSON/params/view/params
     #
     def initialize(asite = '')
       raise(ArgumentError, 'asite cannot be nil!') if !asite

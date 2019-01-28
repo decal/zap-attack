@@ -17,8 +17,10 @@ target/
 *.out
 *.diff
 *.patch
-*.sw[a-p]
+*.back
 *.bak
+*.BAK
+*.BAQ	
 *.backup
 *.debug
 *.dump

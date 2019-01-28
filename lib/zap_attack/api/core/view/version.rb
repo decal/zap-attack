@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module ZapAttack::API
-  VERSION_JSON = 'https://zap:8080/JSON/core/view/version'
+  VERSION_JSON = 'http://zap:8080/JSON/core/view/version'
 
   #
   # Get the current version of the OWASP ZAP API as a string.

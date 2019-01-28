@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module ZapAttack::API
-  HOSTS_JSON = 'https://zap:8080/JSON/core/view/hosts'
+  HOSTS_JSON = 'http://zap:8080/JSON/core/view/hosts'
 
   class Hosts < Array
     #
@@ -35,7 +35,7 @@ module ZapAttack::API
     #   urlarray = ZapAttack::Core.hosts.new()
     #
     # @see 
-    #   https://zap:8080/JSON/core/view/hosts/?zapapiformat=JSON
+    #   http://zap:8080/JSON/core/view/hosts/?zapapiformat=JSON
     #
     def initialize(regex = nil)
       raise(TypeError, 'regex must be a kind of Regexp!') if !regex.kind_of?(Regexp)

@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module ZapAttack::API
-  MESSAGE_JSON = 'https://zap:8080/JSON/core/view/message?id='
+  MESSAGE_JSON = 'http://zap:8080/JSON/core/view/message?id='
 
   class Message < Hash
     attr_reader :json, :text, :message
@@ -19,7 +19,7 @@ module ZapAttack::API
     #   amessage = ZapAttack::API.Message(8)
     #
     # @see 
-    #   https://zap:8080/JSON/core/view/message?id=
+    #   http://zap:8080/JSON/core/view/message?id=
     #
     def initialize(idnum = 0)
       raise(TypeError, 'idnum must be a kind of Integer!') if !idnum.kind_of?(Integer)

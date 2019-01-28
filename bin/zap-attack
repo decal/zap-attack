@@ -11,7 +11,7 @@ require 'resolv-replace'
 include ZapAttack, ZapAttack::API, ZapAttack::Config
 
 scheme = 'https://'
-host = 'my-digitallife-qa1.stage.att.com' # must be a host available in ZAP history
+host = 'host.dom' # must be a host available in ZAP history
 aopts = { :redirect => false, :read_timeout => 8, :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE }
 
 urls, dirs, fils = [], [], []

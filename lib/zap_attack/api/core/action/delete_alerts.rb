@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module ZapAttack::API
-  RMALRTS_JSON = 'https://zap:8080/JSON/core/action/deleteAllAlerts'
+  RMALRTS_JSON = 'http://zap:8080/JSON/core/action/deleteAllAlerts'
   DELETE_ALERTS_JSON = RMALRTS_JSON
 
   #

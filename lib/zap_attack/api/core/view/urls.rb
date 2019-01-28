@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module ZapAttack::API
-  URLS_JSON = 'https://zap:8080/JSON/core/view/urls'
+  URLS_JSON = 'http://zap:8080/JSON/core/view/urls'
 
   class Urls < Array
     #
@@ -35,7 +35,7 @@ module ZapAttack::API
     #   urlarray = ZapAttack::Core.urls.new()
     #
     # @see 
-    #   https://zap:8080/JSON/core/view/urls/?zapapiformat=JSON
+    #   http://zap:8080/JSON/core/view/urls/?zapapiformat=JSON
     #
     def initialize(regex = nil)
       raise(TypeError, 'regex must be a kind of Regexp!') if regex and !regex.kind_of?(Regexp)

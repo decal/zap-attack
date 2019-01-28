@@ -4,7 +4,7 @@ module ZapAttack::Replacer
   #
   # URL to access alerts via ZAP API with baseurl parameter to narrow results
   #
-  RULES_JSON = 'https://zap:8080/JSON/replacer/view/rules'
+  RULES_JSON = 'http://zap:8080/JSON/replacer/view/rules'
 
   class Rules < Array
     attr_reader :json, :text, :alerts
@@ -23,7 +23,7 @@ module ZapAttack::Replacer
     #
     # @see 
     #   ZapAttack::Data::Rule
-    #   https://zap:8080/JSON/replacer/view/rules
+    #   http://zap:8080/JSON/replacer/view/rules
     #
     def initialize(&block)
       rules_json, @text, @rules, @json = RULES_JSON.dup, '', [], []

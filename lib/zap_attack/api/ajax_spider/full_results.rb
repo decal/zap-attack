@@ -2,7 +2,7 @@
 
 module ZapAttack::API
   module AjaxSpider
-    FULL_RESULTS_JSON = 'https://zap:8080/JSON/ajaxSpider/view/fullResults'
+    FULL_RESULTS_JSON = 'http://zap:8080/JSON/ajaxSpider/view/fullResults'
 
     attr_reader :reason, :method, :message_id, :url, :status_code
 

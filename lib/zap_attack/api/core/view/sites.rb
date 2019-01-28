@@ -1,7 +1,7 @@
 # coding: utf-8
 
 module ZapAttack::API
-  SITES_JSON = 'https://zap:8080/JSON/core/view/sites'
+  SITES_JSON = 'http://zap:8080/JSON/core/view/sites'
 
   class Sites < Array
     #
