@@ -10,7 +10,7 @@ group :development do
   gem 'rake',           '~> 12.0'
   gem 'rubygems-tasks', '~> 0.2'
   gem 'rspec',          '~> 3.6'
-  gem 'yard',           '~> 0.9.12'
+  gem 'yard',           '~> 0.9.20'
   gem 'base16',         '~> 0.0.2'
   gem 'simplecov',      '~> 0.7', :require => false
 end
