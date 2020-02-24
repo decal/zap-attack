@@ -7,7 +7,7 @@ gem 'json', '~> 2.1.0'
 gem 'openssl', '~> 2'
 
 group :development do
-  gem 'rake',           '~> 12.0'
+  gem 'rake', '~> 12.3', '>= 12.3.3'
   gem 'rubygems-tasks', '~> 0.2'
   gem 'rspec',          '~> 3.6'
   gem 'yard',           '~> 0.9.12'
